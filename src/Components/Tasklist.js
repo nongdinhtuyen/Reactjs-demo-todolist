@@ -8,7 +8,11 @@ class Tasklist extends Component {
         return <TaskItem 
                     key={task.id} 
                     index={index}
-                    abc={task}/>
+                    item={task}
+                    onUpdateStatus={this.props.onUpdateStatus}
+                    onDelete1={this.props.onDelete}
+                    onUpdate={this.props.onUpdate}
+                    />
       })
     return (
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -25,7 +29,7 @@ class Tasklist extends Component {
                 <tr>
                     <td></td>
                     <td>
-                        <input type="text" className="form-control" />
+                        <input type="text" className="form-control"/>
                     </td>
                     <td>
                         <select className="form-control">
