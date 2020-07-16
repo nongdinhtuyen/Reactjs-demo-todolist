@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class TaskItem extends Component {
     onUpdateStatus= () =>{
         this.props.onUpdateStatus(this.props.item.id)
-        console.log('123')
+        // console.log('123')
     }
     onDelete2 = () =>{
         this.props.onDelete1(this.props.item.id);

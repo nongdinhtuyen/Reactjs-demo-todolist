@@ -71,10 +71,11 @@ i{
 }
 
 .sort_selected::after {
-  content: '\f00c';
+  content: '\2713';
   font-family: FontAwesome;
   font-weight: normal;
   font-style: normal;
   margin: 0px 0px 0px 10px;
   display: inline-block;
+  font-weight: bold;
 }

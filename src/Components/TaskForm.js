@@ -11,27 +11,34 @@ class TaskForm extends Component{
             status: true
         }
     }
-    componentDidMount(){
-        if(this.props.task){
+
+     UNSAFE_componentWillMount() {
+        if (this.props.item) {
+          this.setState({
+            id: this.props.item.id,
+            name: this.props.item.name,
+            status: this.props.item.status,
+        });
+      }
+    }
+    
+
+    UNSAFE_componentWillReceiveProps(nextProps){
+        if(nextProps.item){
             this.setState({
-                id: this.props.task.id,
-                name: this.props.task.name,
-                status: this.props.task.status,
+                id: nextProps.item.id,
+                name: nextProps.item.name,
+                status: nextProps.item.status,
             });
         }
+        else if(!nextProps.item){
+            this.setState({
+                id: '',
+                name: '',
+                status: true
+            })
+        }
     }
-    // componentWillReceiveProps(nextProps) {
-    //     // if (this.props.taskEditing !== null) {
-    //     this.setState((prevState, nextProps) => ({
-    //         id: nextProps.task.id,
-    //         name: nextProps.task.name,
-    //         status: nextProps.task.status
-    //     }))
-    //     console.log(this.state);
-    //     // }
-    // }
-    
-    
 
     onChange = (event) => {
         var target = event.target;
@@ -44,8 +51,9 @@ class TaskForm extends Component{
     showDisplayForm(){
         this.props.close();
     }
+
     onSubmit1 =(event) =>{
-        // event.preventDefault()
+        event.preventDefault()
         this.props.onSubmit(this.state)
     }
     abc = ()=>  {
@@ -54,18 +62,19 @@ class TaskForm extends Component{
             status : true
         })
     }
-
+    onCloseForm = () =>{
+        this.props.onCloseForm();
+    }
     
 
     render(){
-        var { id } = this.state
         return(
             <div className="card">
                     <div className="card-header bg-warning text-white">
                         <h3 className="card-title mb-0">
-                          {id !== '' ? 'Cập nhật công việc' : 'Thêm công việc' }
+                          { this.state.id !== '' ? 'Cập nhật công việc' : 'Thêm công việc' }
                             <i className="far fa-times-circle float-right"
-                            onClick={()=> this.showDisplayForm()}></i>
+                            onClick={this.onCloseForm}></i>
                         </h3>
                     </div>
                     <div className="card-body">
