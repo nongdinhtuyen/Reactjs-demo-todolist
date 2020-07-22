@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
+import {connect} from 'react-redux';
 
 class Tasklist extends Component {
     
@@ -26,17 +27,12 @@ class Tasklist extends Component {
 
 
   render(){
-      var tasks = this.props.tasks;
-      
-      
+      var tasks = this.props.todos;
       var elements = tasks.map((task, index) => {
         return <TaskItem 
                     key={task.id} 
                     index={index}
                     item={task}
-                    onUpdateStatus={this.props.onUpdateStatus}
-                    onDelete1={this.props.onDelete}
-                    onUpdate={this.props.onUpdate}
                     />
       })
             
@@ -67,7 +63,7 @@ class Tasklist extends Component {
                     <td>
                         <select className="form-control"
                                 name="filterStatus"
-                                value={ this.state.filterStatu }
+                                value={ this.state.filterStatus }
                                 onChange={ this.onChange }>
                             <option value="-1">Tất Cả</option>
                             <option value="0">Ẩn</option>
@@ -85,4 +81,10 @@ class Tasklist extends Component {
   }
 }
 
-export default Tasklist;
+const mapStateToProps = state =>{
+    return  { 
+        todos: state.tasks1
+    }
+} 
+
+export default connect(mapStateToProps, null)(Tasklist);

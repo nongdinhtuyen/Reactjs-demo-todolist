@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-
+import {connect} from 'react-redux'
+import * as actions from './../actions/index'
 
 class TaskForm extends Component{
 
@@ -24,20 +25,14 @@ class TaskForm extends Component{
     
 
     UNSAFE_componentWillReceiveProps(nextProps){
-        if(nextProps.item){
+        if(nextProps.itemEditing){
             this.setState({
-                id: nextProps.item.id,
-                name: nextProps.item.name,
-                status: nextProps.item.status,
+                id: nextProps.itemEditing.id,
+                name: nextProps.itemEditing.name,
+                status: nextProps.itemEditing.status,
             });
         }
-        else if(!nextProps.item){
-            this.setState({
-                id: '',
-                name: '',
-                status: true
-            })
-        }
+        else this.onClear();
     }
 
     onChange = (event) => {
@@ -52,12 +47,14 @@ class TaskForm extends Component{
         this.props.close();
     }
 
-    onSubmit1 =(event) =>{
+    onSave =(event) =>{
         event.preventDefault()
-        this.props.onSubmit(this.state)
+        this.props.onSaveTask(this.state)
     }
-    abc = ()=>  {
+
+    onClear = ()=>  {
         this.setState({
+            id: '',
             name: '',
             status : true
         })
@@ -68,17 +65,18 @@ class TaskForm extends Component{
     
 
     render(){
+        if(!this.props.isDisplayForm) return null;
         return(
             <div className="card">
                     <div className="card-header bg-warning text-white">
                         <h3 className="card-title mb-0">
-                          { this.state.id !== '' ? 'Cập nhật công việc' : 'Thêm công việc' }
+                          { !this.state.id ? 'Thêm công việc' : 'Cập nhật công việc' }
                             <i className="far fa-times-circle float-right"
                             onClick={this.onCloseForm}></i>
                         </h3>
                     </div>
                     <div className="card-body">
-                    <form onSubmit={this.onSubmit1}>
+                         <form onSubmit={this.onSave}>
                             <div className="form-group">
                             <label>Tên: </label>
                             <input 
@@ -94,6 +92,7 @@ class TaskForm extends Component{
                             <select
                                 className="form-control"
                                 name="status"
+                                onSubmit={this.onSubmit}
                                 value={this.state.status}
                                 onChange={this.onChange}
                             >
@@ -117,4 +116,22 @@ class TaskForm extends Component{
     }
 }
 
-export default TaskForm;
+const mapStateToProps = (state) =>{
+    return {
+        isDisplayForm: state.isDisplayForm,
+        itemEditing: state.itemEditing
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) =>{
+    return {
+        onSaveTask: (task) => {
+            dispatch(actions.saveTask(task))
+        },
+        onCloseForm: () =>{
+            dispatch(actions.closeForm());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskForm);
