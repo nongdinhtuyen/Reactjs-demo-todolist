@@ -5,7 +5,6 @@ var data = JSON.parse(localStorage.getItem('tasks'))
 var initialState =  data ? data :[] ;
 
 var myReducers = (state = initialState, action) =>{
-    var id = '';
     var index =-1;
     
     switch(action.type){

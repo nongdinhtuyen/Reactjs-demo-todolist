@@ -50,11 +50,11 @@ class TaskForm extends Component{
     onSave =(event) =>{
         event.preventDefault()
         this.props.onSaveTask(this.state)
+        this.onCloseForm()
     }
 
     onClear = ()=>  {
         this.setState({
-            id: '',
             name: '',
             status : true
         })
@@ -104,7 +104,7 @@ class TaskForm extends Component{
                                     <span>Lưu lại</span>
                                 </button>
                                 <button type="button"
-                                    onClick={this.abc}   
+                                    onClick={this.onClear}   
                                     className="btn btn-danger w-50">
                                     <span>Hủy Bỏ</span>
                                 </button>
